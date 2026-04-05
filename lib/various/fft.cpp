@@ -67,7 +67,7 @@ Backward::Backward(int32_t fft_size) :
     plan  = FFTW_PLAN_DFT_1D(fft_size,
             reinterpret_cast<fftwf_complex*>(vector),
             reinterpret_cast<fftwf_complex*>(vector),
-            FFTW_BACKWARD, FFTW_MEASURE);
+            FFTW_BACKWARD, FFTW_ESTIMATE);
 }
 
 Backward::~Backward ()
