@@ -11,7 +11,7 @@ option(AIRSPY    "Compile with Airspy support"     OFF)
 option(SOAPYSDR  "Compile with SoapySDR support"   OFF)
 option(KISS_FFT  "Use KISS FFT instead of FFTW3f"  OFF)
 
-add_definitions(-Wall -O3 -DDABLIN_AAC_FAAD2)
+add_definitions(-Wall -O3 -DDABLIN_AAC_FAAD2 -ffile-prefix-map=${CMAKE_SOURCE_DIR}=.)
 
 # ── CMake modules ─────────────────────────────────────────────────────────────
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
