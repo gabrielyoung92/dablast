@@ -665,7 +665,7 @@ static void usage(const char* prog)
         "  -l FREQFILE  File of frequencies to scan (one per line, # comments ok)\n"
         "\n"
         "Device:\n"
-        "  -d NUM     RTL-SDR device index (default: 0)\n"
+        "  -a NUM     RTL-SDR adapter index (default: 0)\n"
         "  -F DRIVER  Input driver: rtl_sdr (default), rtl_tcp, soapysdr\n"
         "  -g GAIN    RF gain in tenths of dB, or -1 for AGC (default: -1)\n"
         "\n"
