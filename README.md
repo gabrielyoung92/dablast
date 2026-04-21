@@ -32,7 +32,35 @@ RTL-SDR (or compatible SDR)
 
 One UDP multicast stream is sent per configured service. VLC, mplayer, ffmpeg, and IPTV clients can tune each address directly.
 
-## Requirements
+## Building on Debian x86
+
+The easiest way to build on a fresh Debian (or Ubuntu) x86 system is to use the
+provided helper script. It installs every dependency and compiles the binary in
+one step:
+
+```bash
+chmod +x build_debian_x86.sh
+./build_debian_x86.sh
+```
+
+The binary will be placed at `build/dablast`. To install it system-wide:
+
+```bash
+sudo make -C build install
+```
+
+**SDR backend defaults to RTL-SDR.** To build with Airspy or SoapySDR support
+instead (or in addition), pass environment variables before the script:
+
+```bash
+AIRSPY=ON ./build_debian_x86.sh          # RTL-SDR + Airspy
+SOAPYSDR=ON ./build_debian_x86.sh        # RTL-SDR + SoapySDR
+AIRSPY=ON SOAPYSDR=ON ./build_debian_x86.sh  # all three
+```
+
+### Manual build
+
+If you prefer to run CMake yourself:
 
 ```bash
 sudo apt install \
@@ -44,6 +72,7 @@ sudo apt install \
 ```
 
 Optional:
+
 - `libairspy-dev` — Airspy HF+ support
 - `libSoapySDR-dev` — generic SDR support via SoapySDR
 
@@ -56,12 +85,12 @@ cmake --build build -j$(nproc)
 
 Optional build flags:
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `-DRTLSDR=ON` | ON | RTL-SDR USB dongle support |
-| `-DAIRSPY=OFF` | OFF | Airspy HF+ support |
-| `-DSOAPYSDR=OFF` | OFF | SoapySDR generic driver |
-| `-DKISS_FFT=OFF` | OFF | Use KISS FFT instead of FFTW3 |
+| Flag             | Default | Description                   |
+| ---------------- | ------- | ----------------------------- |
+| `-DRTLSDR=ON`    | ON      | RTL-SDR USB dongle support    |
+| `-DAIRSPY=OFF`   | OFF     | Airspy HF+ support            |
+| `-DSOAPYSDR=OFF` | OFF     | SoapySDR generic driver       |
+| `-DKISS_FFT=OFF` | OFF     | Use KISS FFT instead of FFTW3 |
 
 ## Usage
 
@@ -80,6 +109,7 @@ Or scan multiple frequencies in one pass using a frequency list file:
 ```
 
 Example `/etc/dab-Brisbane.freqs`:
+
 ```
 197648000 # 8B
 202928000 # 9A
@@ -92,12 +122,14 @@ dablast will scan each frequency in turn, printing results to stdout and
 progress/status to stderr. Frequencies with no DAB signal are skipped.
 
 Output example (stderr):
+
 ```
 Ensemble found. Collecting service list...
 Ensemble: DAB+ Brisbane 1 (9A)  EId 0x1006  202928000 Hz
 ```
 
 Output example (stdout):
+
 ```
 MMM 80s:202928000:0x12A5
 HeartHits:202928000:0x12A7
@@ -169,10 +201,10 @@ Or add the multicast addresses to any IPTV playlist (M3U).
 dablast passes audio through from the DAB multiplex **without re-encoding** — the
 audio quality is exactly what the broadcaster transmits.
 
-| Service type | Codec | What you should hear |
-|---|---|---|
-| DAB | MPEG-1 Audio Layer II (MP2) | Stereo, 48 kHz — universally supported |
-| DAB+ | HE-AACv2 (SBR + Parametric Stereo) | Stereo, 48 kHz — requires capable decoder |
+| Service type | Codec                              | What you should hear                      |
+| ------------ | ---------------------------------- | ----------------------------------------- |
+| DAB          | MPEG-1 Audio Layer II (MP2)        | Stereo, 48 kHz — universally supported    |
+| DAB+         | HE-AACv2 (SBR + Parametric Stereo) | Stereo, 48 kHz — requires capable decoder |
 
 **DAB+ requires a specific decoder to play at full quality.** Here is what
 HE-AACv2 actually does and why it can go wrong:
