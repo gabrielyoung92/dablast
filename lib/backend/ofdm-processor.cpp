@@ -314,7 +314,15 @@ notSynced:
             counter   ++;
             //
             if (counter > T_null + 50) { // hopeless
-                std::clog << "ofdm-processor: " << "SyncOnEndNull failed" << std::endl;
+                // GabYoung (2026-04-22): Suppress log spam when scanning frequencies
+                // that carry no DAB signal. Noise can fool SyncOnNull into thinking it
+                // found a null symbol, but SyncOnEndNull will always time out because
+                // the structured energy rise of a real DAB frame never arrives. This
+                // produces a continuous flood of messages during channel scanning.
+                // Only log the failure if we were previously locked (scanMode is false).
+                if (!scanMode) {
+                    std::clog << "ofdm-processor: " << "SyncOnEndNull failed" << std::endl;
+                }
                 goto notSynced;
             }
         }
