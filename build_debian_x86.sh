@@ -60,4 +60,4 @@ cmake --build "${BUILD_DIR}" -j"${JOBS}"
 
 echo "==> Done"
 echo "Binary:"
-echo "  ${BUILD_DIR}/dablast"
+echo "  ${REPO_DIR}/dablast"

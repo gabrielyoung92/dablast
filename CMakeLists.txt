@@ -163,4 +163,11 @@ endif()
 
 target_link_libraries(dablast ${dablast_libs})
 
+# Place binary in the repo root so it can be run as ./dablast
+set_target_properties(dablast PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}"
+)
+
 install(TARGETS dablast RUNTIME DESTINATION bin)
